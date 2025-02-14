@@ -32,6 +32,10 @@ If you have any feedback, please reach out as a bug report.
 
 - [@TV46](https://www.github.com/TV46)
 
+## Acknowledgements
+
+- [AutoHotKey](https://github.com/AutoHotkey/AutoHotkey)
+ - [Ahk2Exe](https://github.com/AutoHotkey/Ahk2Exe)
 
 ## License
 
