@@ -2,13 +2,15 @@
 # LeafBlower
 A tool for blowing leaves
 
-Feel free to sudmit pull requests to help out improving my code. :)
+This tool auto detects the size of your window and moves the mouse in a zig-zag pattern to blow away all of your leaves!
+
+Feel free to submit pull requests to help out improving my code. :)
 ## Features
 
 - Esc to exit
 - ~ to pause/resume
 - Auto window size detection
-- x64 support x32 coming soon
+- 64 bit support 32 bit version coming soon
 
 
 ## Roadmap
@@ -17,6 +19,9 @@ Feel free to sudmit pull requests to help out improving my code. :)
 
 - Optimise the code
 
+- add 32 bit version support
+
+- built in compiler?
 
 ## Feedback
 
