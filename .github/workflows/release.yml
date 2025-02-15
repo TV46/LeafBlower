@@ -24,10 +24,16 @@ jobs:
           echo "Installing AutoHotkey using Chocolatey..."
           choco install autohotkey -y
 
-      # Find the path of ahk2exe (search in typical locations)
+      # Check if ahk2exe is in a common installation path
       - name: Find ahk2exe
         run: |
-          $ahk2exePath = Get-Command ahk2exe -ErrorAction SilentlyContinue
+          $ahk2exePaths = @(
+            "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe",  # Default 64-bit path
+            "C:\Program Files (x86)\AutoHotkey\Compiler\Ahk2Exe.exe" # Default 32-bit path
+          )
+
+          $ahk2exePath = $ahk2exePaths | Where-Object { Test-Path $_ }
+          
           if ($ahk2exePath) {
             echo "Found ahk2exe at $ahk2exePath"
           } else {
