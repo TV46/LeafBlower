@@ -18,6 +18,14 @@ jobs:
           echo "Listing files in the repository..."
           Get-ChildItem -Recurse
 
+      # Install AutoHotkey
+      - name: Install AutoHotkey
+        run: |
+          echo "Downloading and installing AutoHotkey..."
+          Invoke-WebRequest -Uri "https://www.autohotkey.com/download/ahk-installer.exe" -OutFile "ahk-installer.exe"
+          Start-Process -Wait -FilePath .\ahk-installer.exe -ArgumentList "/S"
+          Remove-Item -Force ahk-installer.exe # Clean up the installer
+
       # Compile the AHK script to EXE using the local ahk2exe.exe
       - name: Compile AHK script to EXE
         run: |
