@@ -28,6 +28,12 @@ jobs:
           $ahk2exeResult = & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe 2>&1
           echo "ahk2exe output: $ahk2exeResult"
 
+      # List the files after the compilation attempt
+      - name: List generated files
+        run: |
+          echo "Listing all files after compilation attempt..."
+          Get-ChildItem -Recurse
+
       # Check if the EXE was created
       - name: Check if EXE was created
         run: |
