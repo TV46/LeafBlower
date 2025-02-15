@@ -24,8 +24,8 @@ jobs:
           echo "Starting compilation of Blower.ahk..."
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Run ahk2exe and capture output for debugging
-          $ahk2exeResult = & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe 2>&1
+          # Explicitly run ahk2exe and capture the output
+          $ahk2exeResult = & ".\ahk2exe\ahk2exe.exe" /in ".\code\Blower.ahk" /out "output.exe" /compile 2>&1
           echo "ahk2exe output: $ahk2exeResult"
 
       # List the files after the compilation attempt
