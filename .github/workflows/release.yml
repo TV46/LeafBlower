@@ -12,68 +12,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # List files to ensure the correct paths
-      - name: List files in repository
-        run: |
-          echo "Listing files in the repository..."
-          Get-ChildItem -Recurse
-
-      # Install AutoHotkey using Chocolatey
-      - name: Install AutoHotkey
-        run: |
-          echo "Installing AutoHotkey using Chocolatey..."
-          choco install autohotkey -y
-
-      # Check if ahk2exe is in a common installation path
-      - name: Find ahk2exe
-        run: |
-          $ahk2exePaths = @(
-            "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe",  # Default 64-bit path
-            "C:\Program Files (x86)\AutoHotkey\Compiler\Ahk2Exe.exe" # Default 32-bit path
-          )
-
-          $ahk2exePath = $ahk2exePaths | Where-Object { Test-Path $_ }
-          
-          if ($ahk2exePath) {
-            echo "Found ahk2exe at $ahk2exePath"
-          } else {
-            echo "Error: ahk2exe not found."
-            exit 1
-          }
-
-      # Compile the AHK script to EXE using the found ahk2exe
+      # Compile the AHK script to EXE using the local ahk2exe.exe
       - name: Compile AHK script to EXE
         run: |
-          echo "Starting compilation of Blower.ahk..."
+          # Ensure ahk2exe is executable
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Path to the AHK script
-          $scriptPath = ".\code\Blower.ahk"
-          $outputPath = ".\output.exe"
+          # Compile using the local ahk2exe.exe from the repository
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
 
-          # Run ahk2exe using the found path
-          $ahk2exeResult = & $ahk2exePath /in $scriptPath /out $outputPath /compile 2>&1
-          echo "ahk2exe output: $ahk2exeResult"
-
-      # List the files after the compilation attempt
-      - name: List generated files
-        run: |
-          echo "Listing all files after compilation attempt..."
-          Get-ChildItem -Recurse
-
-      # Check if the EXE was created
-      - name: Check if EXE was created
-        run: |
-          if (Test-Path -Path ".\output.exe") {
-            echo "EXE file created successfully!"
-          } else {
-            echo "EXE file not created. Please check for errors."
-            exit 1
-          }
-
-      # Upload the EXE as an artifact using the correct version
+      # Upload the EXE as an artifact
       - name: Upload compiled EXE
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: compiled-ahk-exe
-          path: .\output.exe
+          path: output.exe
