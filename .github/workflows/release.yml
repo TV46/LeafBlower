@@ -16,7 +16,7 @@ jobs:
       - name: List files in repository
         run: |
           echo "Listing files in the repository..."
-          dir /s
+          Get-ChildItem -Recurse
 
       # Compile the AHK script to EXE using the local ahk2exe.exe
       - name: Compile AHK script to EXE
