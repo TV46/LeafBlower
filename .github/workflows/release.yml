@@ -21,12 +21,12 @@ jobs:
       # Compile the AHK script to EXE using the local ahk2exe.exe
       - name: Compile AHK script to EXE
         run: |
-          # Ensure ahk2exe is executable
+          echo "Starting compilation of Blower.ahk..."
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Compile using the local ahk2exe.exe from the repository
-          echo "Compiling script..."
-          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
+          # Run ahk2exe and capture output for debugging
+          $ahk2exeResult = & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe 2>&1
+          echo "ahk2exe output: $ahk2exeResult"
 
       # Check if the EXE was created
       - name: Check if EXE was created
