@@ -18,23 +18,32 @@ jobs:
           echo "Listing files in the repository..."
           Get-ChildItem -Recurse
 
-      # Install AutoHotkey
+      # Install AutoHotkey using winget
       - name: Install AutoHotkey
         run: |
-          echo "Downloading and installing AutoHotkey..."
-          Invoke-WebRequest -Uri "https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.33.02/AutoHotkey_1.1.33.02_setup.exe" -OutFile "ahk-installer.exe"
-          Start-Process -Wait -FilePath .\ahk-installer.exe -ArgumentList "/S"
-          Remove-Item -Force ahk-installer.exe # Clean up the installer
+          echo "Installing AutoHotkey using winget..."
+          winget install --id AutoHotkey.AutoHotkey -e --silent
 
-      # Compile the AHK script to EXE using the local ahk2exe.exe
+      # Compile the AHK script to EXE using ahk2exe
       - name: Compile AHK script to EXE
         run: |
           echo "Starting compilation of Blower.ahk..."
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Explicitly run ahk2exe and capture the output
-          $ahk2exeResult = & ".\ahk2exe\ahk2exe.exe" /in ".\code\Blower.ahk" /out "output.exe" /compile 2>&1
-          echo "ahk2exe output: $ahk2exeResult"
+          # Ensure ahk2exe is available after AutoHotkey installation
+          $ahk2exePath = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
+          $scriptPath = ".\code\Blower.ahk"
+          $outputPath = ".\output.exe"
+
+          # Run ahk2exe using local AHK installation
+          if (Test-Path $ahk2exePath) {
+            echo "ahk2exe found at $ahk2exePath"
+            $ahk2exeResult = & $ahk2exePath /in $scriptPath /out $outputPath /compile 2>&1
+            echo "ahk2exe output: $ahk2exeResult"
+          } else {
+            echo "Error: ahk2exe not found in AutoHotkey installation."
+            exit 1
+          }
 
       # List the files after the compilation attempt
       - name: List generated files
@@ -45,7 +54,7 @@ jobs:
       # Check if the EXE was created
       - name: Check if EXE was created
         run: |
-          if (Test-Path -Path "output.exe") {
+          if (Test-Path -Path ".\output.exe") {
             echo "EXE file created successfully!"
           } else {
             echo "EXE file not created. Please check for errors."
@@ -57,4 +66,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: compiled-ahk-exe
-          path: output.exe
+          path: .\output.exe
