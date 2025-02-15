@@ -1,0 +1,29 @@
+name: Compile AHK Script to EXE
+
+on:
+  workflow_dispatch: # Only triggers manually
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Compile the AHK script to EXE using the local ahk2exe.exe
+      - name: Compile AHK script to EXE
+        run: |
+          # Ensure ahk2exe is executable
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          
+          # Compile using the local ahk2exe.exe from the repository
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
+
+      # Upload the EXE as an artifact
+      - name: Upload compiled EXE
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-ahk-exe
+          path: output.exe
