@@ -21,9 +21,9 @@ jobs:
           # Compile using the local ahk2exe.exe from the repository
           & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
 
-      # Upload the EXE as an artifact
+      # Upload the EXE as an artifact using the correct version
       - name: Upload compiled EXE
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-ahk-exe
           path: output.exe
