@@ -12,6 +12,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Install nircmd tool for screenshot (if needed)
+      - name: Install nircmd for screenshot
+        run: |
+          Invoke-WebRequest -Uri "https://www.nircmd.com/nircmd.zip" -OutFile "nircmd.zip"
+          Expand-Archive -Path "nircmd.zip" -DestinationPath ".\nircmd"
+          $env:Path += ";$(pwd)\nircmd"
+
+      # Run the AHK2EXE GUI and take a screenshot
+      - name: Open ahk2exe GUI and capture screenshot
+        run: |
+          # Set execution policy for scripts
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          
+          # Open the ahk2exe GUI (using the full path to avoid potential issues)
+          Start-Process -FilePath ".\ahk2exe\ahk2exe.exe"
+          
+          # Wait for the GUI to load
+          Start-Sleep -Seconds 5
+
+          # Take a screenshot using nircmd (you can adjust the coordinates or area to capture as needed)
+          nircmd.exe savescreenshot "screenshot.png"
+
+      # Upload the screenshot for debugging purposes
+      - name: Upload screenshot for debugging
+        uses: actions/upload-artifact@v4
+        with:
+          name: ahk2exe-screenshot
+          path: screenshot.png
+
       # Compile the AHK script to EXE using the local ahk2exe.exe
       - name: Compile AHK script to EXE
         run: |
@@ -21,7 +50,7 @@ jobs:
           # Compile using the local ahk2exe.exe from the repository
           & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
 
-      # Upload the EXE as an artifact using the correct version (v4)
+      # Upload the EXE as an artifact
       - name: Upload compiled EXE
         uses: actions/upload-artifact@v4
         with:
