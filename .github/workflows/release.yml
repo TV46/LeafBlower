@@ -18,11 +18,11 @@ jobs:
           echo "Listing files in the repository..."
           Get-ChildItem -Recurse
 
-      # Install AutoHotkey using winget
+      # Install AutoHotkey using Chocolatey
       - name: Install AutoHotkey
         run: |
-          echo "Installing AutoHotkey using winget..."
-          winget install --id AutoHotkey.AutoHotkey -e --silent
+          echo "Installing AutoHotkey using Chocolatey..."
+          choco install autohotkey -y
 
       # Compile the AHK script to EXE using ahk2exe
       - name: Compile AHK script to EXE
