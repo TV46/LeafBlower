@@ -12,29 +12,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Install nircmd tool for screenshot (if needed)
-      - name: Install nircmd for screenshot
-        run: |
-          Invoke-WebRequest -Uri "https://www.nircmd.com/nircmd.zip" -OutFile "nircmd.zip"
-          Expand-Archive -Path "nircmd.zip" -DestinationPath ".\nircmd"
-          $env:Path += ";$(pwd)\nircmd"
-
-      # Run the AHK2EXE GUI and take a screenshot
+      # Run the AHK2EXE GUI and capture screenshot using PowerShell
       - name: Open ahk2exe GUI and capture screenshot
         run: |
           # Set execution policy for scripts
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Open the ahk2exe GUI (using the full path to avoid potential issues)
+          # Start the ahk2exe GUI
           Start-Process -FilePath ".\ahk2exe\ahk2exe.exe"
           
           # Wait for the GUI to load
           Start-Sleep -Seconds 5
 
-          # Take a screenshot using nircmd (you can adjust the coordinates or area to capture as needed)
-          nircmd.exe savescreenshot "screenshot.png"
+          # Capture screenshot using PowerShell
+          Add-Type -AssemblyName System.Windows.Forms
+          $screen = [System.Windows.Forms.Screen]::AllScreens[0]
+          $bitmap = New-Object System.Drawing.Bitmap $screen.Bounds.Width, $screen.Bounds.Height
+          $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+          $graphics.CopyFromScreen($screen.Bounds.Location, [System.Drawing.Point]::Empty, $screen.Bounds.Size)
+          $bitmap.Save("screenshot.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
-      # Upload the screenshot for debugging purposes
+      # Upload screenshot for debugging purposes
       - name: Upload screenshot for debugging
         uses: actions/upload-artifact@v4
         with:
