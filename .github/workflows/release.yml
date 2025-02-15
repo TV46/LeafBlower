@@ -22,7 +22,7 @@ jobs:
       - name: Install AutoHotkey
         run: |
           echo "Downloading and installing AutoHotkey..."
-          Invoke-WebRequest -Uri "https://www.autohotkey.com/download/ahk-installer.exe" -OutFile "ahk-installer.exe"
+          Invoke-WebRequest -Uri "https://github.com/AutoHotkey/AutoHotkey/releases/download/v1.1.33.02/AutoHotkey_1.1.33.02_setup.exe" -OutFile "ahk-installer.exe"
           Start-Process -Wait -FilePath .\ahk-installer.exe -ArgumentList "/S"
           Remove-Item -Force ahk-installer.exe # Clean up the installer
 
