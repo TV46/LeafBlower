@@ -24,26 +24,30 @@ jobs:
           echo "Installing AutoHotkey using Chocolatey..."
           choco install autohotkey -y
 
-      # Compile the AHK script to EXE using the installed ahk2exe
+      # Find the path of ahk2exe (search in typical locations)
+      - name: Find ahk2exe
+        run: |
+          $ahk2exePath = Get-Command ahk2exe -ErrorAction SilentlyContinue
+          if ($ahk2exePath) {
+            echo "Found ahk2exe at $ahk2exePath"
+          } else {
+            echo "Error: ahk2exe not found."
+            exit 1
+          }
+
+      # Compile the AHK script to EXE using the found ahk2exe
       - name: Compile AHK script to EXE
         run: |
           echo "Starting compilation of Blower.ahk..."
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Path to the installed ahk2exe
-          $ahk2exePath = "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe"
+          # Path to the AHK script
           $scriptPath = ".\code\Blower.ahk"
           $outputPath = ".\output.exe"
 
-          # Check if ahk2exe exists and compile
-          if (Test-Path $ahk2exePath) {
-            echo "ahk2exe found at $ahk2exePath"
-            $ahk2exeResult = & $ahk2exePath /in $scriptPath /out $outputPath /compile 2>&1
-            echo "ahk2exe output: $ahk2exeResult"
-          } else {
-            echo "Error: ahk2exe not found in AutoHotkey installation."
-            exit 1
-          }
+          # Run ahk2exe using the found path
+          $ahk2exeResult = & $ahk2exePath /in $scriptPath /out $outputPath /compile 2>&1
+          echo "ahk2exe output: $ahk2exeResult"
 
       # List the files after the compilation attempt
       - name: List generated files
