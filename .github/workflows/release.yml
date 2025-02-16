@@ -61,6 +61,7 @@ jobs:
         run: |
           gh release upload "$tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x86.exe
           & gh release upload "$tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x64.exe
-
+        shell: bash
+                                                                                        
       - name: List directory contents (Windows)
         run: dir -s
