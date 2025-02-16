@@ -12,45 +12,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Run the AHK2EXE GUI and capture screenshot using PowerShell
-      - name: Open ahk2exe GUI and capture screenshot
-        run: |
-          # Set execution policy for scripts
-          Set-ExecutionPolicy Bypass -Scope Process -Force
-          
-          # Start the ahk2exe GUI
-          Start-Process -FilePath ".\ahk2exe\ahk2exe.exe"
-          
-          # Wait for the GUI to load
-          Start-Sleep -Seconds 5
-
-          # Capture screenshot using PowerShell
-          Add-Type -AssemblyName System.Windows.Forms
-          $screen = [System.Windows.Forms.Screen]::AllScreens[0]
-          $bitmap = New-Object System.Drawing.Bitmap $screen.Bounds.Width, $screen.Bounds.Height
-          $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
-          $graphics.CopyFromScreen($screen.Bounds.Location, [System.Drawing.Point]::Empty, $screen.Bounds.Size)
-          $bitmap.Save("screenshot.png", [System.Drawing.Imaging.ImageFormat]::Png)
-
-      # Upload screenshot for debugging purposes
-      - name: Upload screenshot for debugging
-        uses: actions/upload-artifact@v4
-        with:
-          name: ahk2exe-screenshot
-          path: screenshot.png
-
-      # Compile the AHK script to EXE using the local ahk2exe.exe
+      # Compile the AHK script to EXE using ahk2exe with command-line arguments
       - name: Compile AHK script to EXE
         run: |
           # Ensure ahk2exe is executable
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Compile using the local ahk2exe.exe from the repository
-          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output.exe
+          # Compile using the local ahk2exe.exe with command-line arguments (no output specified)
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk
 
       # Upload the EXE as an artifact
       - name: Upload compiled EXE
         uses: actions/upload-artifact@v4
         with:
           name: compiled-ahk-exe
-          path: output.exe
+          path: .\Blower.exe
