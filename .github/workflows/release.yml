@@ -23,7 +23,7 @@ jobs:
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
           # Compile using the local ahk2exe.exe from the repository with 64-bit binary
-          & D:\a\LeafBlower\LeafBlower\Ahk2Exe\ahk2exe.exe /in .\code\Blower.ahk /out Leaf.Blower.x64.exe /bin .\ahk2exe\AutoHotkey64.exe /icon ./Icons/Platinum_Leaf.ico
+          & D:\a\LeafBlower\LeafBlower\Ahk2Exe\ahk2exe.exe /in ".\code\Blower.ahk" /out "D:\a\LeafBlower\LeafBlower\Leaf.Blower.x64.exe" /bin ".\ahk2exe\AutoHotkey64.exe" /icon "D:\a\LeafBlower\LeafBlower/Icons/Platinum_Leaf.ico"
 
       # Compile the AHK script to EXE using 32-bit AutoHotkey binary
       - name: Compile AHK script to EXE (32-bit)
