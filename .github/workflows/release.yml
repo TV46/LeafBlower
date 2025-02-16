@@ -46,13 +46,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          LATEST_DRAFT=$(gh release list --limit 1 --json tagName,isDraft --jq '.[] | select(.isDraft) | .tagName')
-          if [ -z "$LATEST_DRAFT" ]; then
-            echo "No draft release found."
+          $LATEST_DRAFT = gh release list --limit 1 --json tagName,isDraft --jq ".[] | select(.isDraft) | .tagName"
+          if (-not $LATEST_DRAFT) {
+            Write-Host "No draft release found."
             exit 1
-          fi
-          echo "Latest draft release: $LATEST_DRAFT"
-          echo "tag_name=$LATEST_DRAFT" >> $GITHUB_ENV
+          }
+          Write-Host "Latest draft release: $LATEST_DRAFT"
+          echo "tag_name=$LATEST_DRAFT" | Out-File -FilePath $env:GITHUB_ENV -Append
+        shell: pwsh
                                                       
       - name: List directory contents (Windows)
         run: dir -s
