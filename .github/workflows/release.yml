@@ -41,5 +41,25 @@ jobs:
         run: |
           gh release create latest --generate-notes --title "Leaf Blower" --draft
 
+      - name: Get latest draft release tag
+        id: get_draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_DRAFT=$(gh release list --limit 1 --json tagName,isDraft --jq '.[] | select(.isDraft) | .tagName')
+          if [ -z "$LATEST_DRAFT" ]; then
+            echo "No draft release found."
+            exit 1
+          fi
+          echo "Latest draft release: $LATEST_DRAFT"
+          echo "tag_name=$LATEST_DRAFT" >> $GITHUB_ENV
+
+      - name: Upload asset to latest draft release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "$tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x86.exe
+          & gh release upload "$tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x64.exe
+
       - name: List directory contents (Windows)
         run: dir -s
