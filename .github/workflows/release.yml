@@ -19,7 +19,7 @@ jobs:
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
           # Compile using the local ahk2exe.exe from the repository with 64-bit binary
-          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output_64bit.exe /bin .\ahk2exe\AutoHotkey64.exe
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out Leaf.Blower.x64.exe /bin .\ahk2exe\AutoHotkey64.exe /icon ./Icons/Platinum_Leaf.ico 
 
       # Compile the AHK script to EXE using 32-bit AutoHotkey binary
       - name: Compile AHK script to EXE (32-bit)
@@ -28,13 +28,13 @@ jobs:
           Set-ExecutionPolicy Bypass -Scope Process -Force
 
           # Compile using the local ahk2exe.exe from the repository with 32-bit binary
-          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output_32bit.exe /bin .\ahk2exe\AutoHotkey32.exe
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out Leaf.Blower.x86.exe /bin .\ahk2exe\AutoHotkey32.exe /icon ./Icons/Platinum_Leaf.ico
 
       # Upload the 64-bit EXE as an artifact
       - name: Upload compiled 64bit EXE
         uses: actions/upload-artifact@v4
         with:
-          name: output_64bit.exe
+          name: Leaf.Blower.x64.exe
           path: D:\a\LeafBlower\LeafBlower\code
 
 
@@ -42,5 +42,5 @@ jobs:
       - name: Upload compiled 32bit EXE
         uses: actions/upload-artifact@v4
         with:
-          name: output_32bit.exe
+          name: Leaf.Blower.x86.exe
           path: D:\a\LeafBlower\LeafBlower\code
