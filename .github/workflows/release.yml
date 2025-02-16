@@ -34,12 +34,13 @@ jobs:
       - name: Upload compiled 64bit EXE
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-64bit-ahk-exe
-          path: output_64bit.exe
+          name: output_64bit.exe
+          path: D:\a\LeafBlower\LeafBlower\code
+
 
       # Upload the 32-bit EXE as an artifact
       - name: Upload compiled 32bit EXE
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-32bit-ahk-exe
-          path: output_32bit.exe
+          name: output_32bit.exe
+          path: D:\a\LeafBlower\LeafBlower\code
