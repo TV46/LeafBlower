@@ -62,6 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "$env:tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x86.exe
+          gh release upload "$env:tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x64.exe
+          & gh release upload "$env:tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x86.exe
         shell: pwsh
                                                                                         
