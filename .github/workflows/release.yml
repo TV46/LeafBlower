@@ -32,7 +32,7 @@ jobs:
           Set-ExecutionPolicy Bypass -Scope Process -Force
 
           # Compile using the local ahk2exe.exe from the repository with 32-bit binary
-          & D:\a\LeafBlower\LeafBlower\Ahk2Exe\ahk2exe.exe /in ".\code\Blower.ahk" /out "Leaf.Blower.x86.exe" /bin ".\ahk2exe\AutoHotkey32.exe" /icon "./Icons/Platinum_Leaf.ico"
+          & D:\a\LeafBlower\LeafBlower\Ahk2Exe\ahk2exe.exe /in ".\code\Blower.ahk" /out "D:\a\LeafBlower\LeafBlower\Leaf.Blower.x86.exe" /bin ".\ahk2exe\AutoHotkey32.exe" /icon "D:\a\LeafBlower\LeafBlower/Icons/Platinum_Leaf.ico"
 
       - name: Create a Draft
         id: create_release
