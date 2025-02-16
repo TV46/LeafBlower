@@ -54,6 +54,9 @@ jobs:
           fi
           echo "Latest draft release: $LATEST_DRAFT"
           echo "tag_name=$LATEST_DRAFT" >> $GITHUB_ENV
+                                                      
+      - name: List directory contents (Windows)
+        run: dir -s
 
       - name: Upload asset to latest draft release
         env:
@@ -63,5 +66,3 @@ jobs:
           & gh release upload "$tag_name" D:\a\LeafBlower\LeafBlower\Leaf.Blower.x64.exe
         shell: bash
                                                                                         
-      - name: List directory contents (Windows)
-        run: dir -s
