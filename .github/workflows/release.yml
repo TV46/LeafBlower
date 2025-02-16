@@ -45,7 +45,6 @@ jobs:
         id: get_draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
         run: |
           LATEST_DRAFT=$(gh release list --limit 1 --json tagName,isDraft --jq '.[] | select(.isDraft) | .tagName')
           if [ -z "$LATEST_DRAFT" ]; then
