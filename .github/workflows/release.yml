@@ -39,10 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create latest \
-            --generate-notes \
-            --title "Latest Draft Release" \
-            --draft
+          gh release create latest --generate-notes --title "Latest Draft Release" --draft
 
       # Upload the 64-bit EXE as an artifact
       - name: Upload compiled 64bit EXE
