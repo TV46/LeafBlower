@@ -28,17 +28,17 @@ jobs:
           Set-ExecutionPolicy Bypass -Scope Process -Force
 
           # Compile using the local ahk2exe.exe from the repository with 32-bit binary
-          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output_32bit.exe /bin .\ahk2exe\AutoHotkey.exe
+          & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk /out output_32bit.exe /bin .\ahk2exe\AutoHotkey32.exe
 
       # Upload the 64-bit EXE as an artifact
-      - name: Upload compiled 64-bit EXE
+      - name: Upload compiled 64bit EXE
         uses: actions/upload-artifact@v4
         with:
           name: compiled-64bit-ahk-exe
           path: output_64bit.exe
 
       # Upload the 32-bit EXE as an artifact
-      - name: Upload compiled 32-bit EXE
+      - name: Upload compiled 32bit EXE
         uses: actions/upload-artifact@v4
         with:
           name: compiled-32bit-ahk-exe
