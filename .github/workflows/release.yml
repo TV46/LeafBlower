@@ -21,6 +21,16 @@ jobs:
           # Compile using the local ahk2exe.exe with command-line arguments (no output specified)
           & ".\ahk2exe\ahk2exe.exe" /in .\code\Blower.ahk
 
+      # Check if the EXE file exists
+      - name: Verify EXE creation
+        run: |
+          if (Test-Path ".\Blower.exe") {
+            Write-Host "EXE file successfully created: .\Blower.exe"
+          } else {
+            Write-Error "Compilation failed. No EXE file found."
+            exit 1
+          }
+
       # Upload the EXE as an artifact
       - name: Upload compiled EXE
         uses: actions/upload-artifact@v4
