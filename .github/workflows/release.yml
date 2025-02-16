@@ -18,8 +18,8 @@ jobs:
           # Ensure ahk2exe is executable
           Set-ExecutionPolicy Bypass -Scope Process -Force
           
-          # Compile using the local ahk2exe.exe with /bin option for Unicode 64-bit binary
-          Start-Process -Wait -FilePath ".\ahk2exe\ahk2exe.exe" -ArgumentList "/in .\code\Blower.ahk /bin 'Unicode 64-bit.bin'"
+          # Run ahk2exe directly and capture output
+          & ".\ahk2exe\ahk2exe.exe" /in ".\code\Blower.ahk" /bin "Unicode 64-bit.bin" | Tee-Object -FilePath ahk2exe_output.log
 
       # Check if any EXE file was created
       - name: Verify EXE creation
@@ -39,3 +39,10 @@ jobs:
         with:
           name: compiled-ahk-exe
           path: .\*.exe
+
+      # Upload the log for debugging purposes
+      - name: Upload ahk2exe output log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ahk2exe-output-log
+          path: ahk2exe_output.log
