@@ -42,4 +42,4 @@ jobs:
           gh release create latest --generate-notes --title "Leaf Blower" --draft
 
       - name: List directory contents (Windows)
-        run: dir /s
+        run: dir -s
