@@ -41,17 +41,5 @@ jobs:
         run: |
           gh release create latest --generate-notes --title "Leaf Blower" --draft
 
-      # Upload the 64-bit EXE as an artifact
-      - name: Upload compiled 64bit EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: Leaf.Blower.x64.exe
-          path: D:\a\LeafBlower\LeafBlower\code\Leaf.Blower.x64.exe
-
-
-      # Upload the 32-bit EXE as an artifact
-      - name: Upload compiled 32bit EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: Leaf.Blower.x86.exe
-          path: D:\a\LeafBlower\LeafBlower\code\Leaf.Blower.x86.exe
+      - name: List directory contents (Windows)
+        run: dir
